@@ -14,24 +14,29 @@ namespace dotnet_rpg.Controllers
             new Character(),
             new Character { Id = 1, Name = "Sam" }
         ];
+        private readonly ICharacterService _characterService;
+
+        public CharacterController(ICharacterService characterService)
+        {
+            this._characterService = characterService;
+        }
 
         [HttpGet("GetAll")]
         public ActionResult<List<Character>> Get()
         {
-            return Ok(characters);
+            return Ok(_characterService.GetAllCharacters());
         }
 
         [HttpGet("{Id}")]
         public ActionResult<Character> GetSingle(int Id)
         {
-            return Ok(characters.FirstOrDefault(c => c.Id == Id));
+            return Ok(_characterService.GetCharacterById(Id));
         }
 
         [HttpPost]
         public ActionResult<List<Character>> AddCharacter(Character newCharacter)
         {
-            characters.Add(newCharacter);
-            return Ok(characters);
+            return Ok(_characterService.AddCharacter(newCharacter));
         }
     }
 }
