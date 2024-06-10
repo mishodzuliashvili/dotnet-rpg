@@ -1,6 +1,11 @@
 @dotnet_rpg_HostAddress = http://localhost:5244
 
-GET {{dotnet_rpg_HostAddress}}/weatherforecast/
+GET {{dotnet_rpg_HostAddress}}/api/character/1
+Accept: application/json
+
+###
+
+GET {{dotnet_rpg_HostAddress}}/api/character/getall
 Accept: application/json
 
 ###
