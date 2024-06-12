@@ -1,6 +1,8 @@
 global using dotnet_rpg.Models;
 global using dotnet_rpg.Services.CharacterService;
+global using dotnet_rpg.Services.EmailService;
 global using dotnet_rpg.Dtos.Character;
+global using dotnet_rpg.Dtos.Email;
 global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 global using dotnet_rpg.Data;
@@ -15,8 +17,10 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(builder.
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => {
-    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme{
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
         In = ParameterLocation.Header,
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey,
@@ -28,6 +32,7 @@ builder.Services.AddSwaggerGen(options => {
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddScoped<ICharacterService, CharacterService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddAuthorization();
 
