@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_rpg.Controllers
@@ -34,13 +35,13 @@ namespace dotnet_rpg.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> Add(AddCharacterDto newCharacter)
         {
             return Ok(await _characterService.AddCharacter(newCharacter));
         }
 
-        [HttpPut]
+        [HttpPut, Authorize]
         public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> Update(UpdateCharacterDto updatedCharacter)
         {
             var response = await _characterService.UpdateCharacter(updatedCharacter);
@@ -51,7 +52,7 @@ namespace dotnet_rpg.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{Id}")]
+        [HttpDelete("{Id}"), Authorize]
         public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> Delete(int Id)
         {
             var response = await _characterService.DeleteCharacterById(Id);
