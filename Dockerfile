@@ -1,18 +1,25 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+
 WORKDIR /source
 
-# copy csproj and restore as distinct layers
-COPY *.sln .
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
+
 COPY *.csproj .
 RUN dotnet restore
 
-# copy everything else and build app
 COPY . .
-RUN dotnet publish -c Release -o app
+RUN dotnet publish -c Release -o /app
+RUN dotnet ef database update
 
-# final stage/image
+
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /source/app ./
+
+COPY --from=build /app .
+COPY --from=build /source/dotnet-rpg.db .
 EXPOSE 8080
+
 ENTRYPOINT ["dotnet", "dotnet-rpg.dll"]
+
+
