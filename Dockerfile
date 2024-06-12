@@ -5,11 +5,13 @@ WORKDIR /source
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="$PATH:/root/.dotnet/tools"
 
+# COPY *.sln .
 COPY *.csproj .
 RUN dotnet restore
 
 COPY . .
 RUN dotnet publish -c Release -o /app
+
 RUN dotnet ef database update
 
 
